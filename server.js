@@ -8,21 +8,29 @@ var app  = express();
 app.get("/run", function(req, res) {
   url = req.query.url;
   method = req.query.method;
-  key = req.headers.headerskey.split("|||")[0];
-  val = req.headers.headerskey.split("|||")[1];
-  console.log(url);
-  console.log(method);
-  console.log(key);
-  console.log(val);
+  headers = {};
+  if ("headerskey" in req.headers) {
+    key = req.headers.headerskey.split("|||")[0];
+    val = req.headers.headerskey.split("|||")[1];
+    console.log(url);
+    console.log(method);
+    console.log(req.headers);
+    console.log(key);
+    console.log(val);
+    headers[key] = val;
+  }
+
   axios({
     method: method,
     url: url,
-    headers: {key: val}
+    headers: headers
   }).then(function(response) {
     res.header("Access-Control-Allow-Origin", "*");
     console.log(response.data);
     res.send(response.data);
   }).catch(function(error) {
+    console.log(error);
+    console.log("This was the error");
     res.send(error);
   })
 });
