@@ -25,7 +25,9 @@ app.get("/run", function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.send(response.data);
   }).catch(function(error) {
-    res.send(error);
+    console.log(error);
+    res.header("Access-Control-Allow-Origin", "*");
+    res.send(error.response.data);
   });
 });
 
