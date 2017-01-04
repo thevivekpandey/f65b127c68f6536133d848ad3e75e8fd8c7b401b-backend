@@ -5,6 +5,10 @@ const PORT = 8000;
 
 var app  = express();
 
+send = function(res, data) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.send(data);
+}
 app.get("/run", function(req, res) {
   url = req.query.url;
   method = req.query.method.toLowerCase();
@@ -22,12 +26,10 @@ app.get("/run", function(req, res) {
     headers: headers
   }).then(function(response) {
     console.log(response);
-    res.header("Access-Control-Allow-Origin", "*");
-    res.send(response.data);
+    send(res, {data: response.data, headers: response.headers});
   }).catch(function(error) {
     console.log(error);
-    res.header("Access-Control-Allow-Origin", "*");
-    res.send(error.response.data);
+    send(res, {data: error.response.data});
   });
 });
 
