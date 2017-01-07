@@ -26,10 +26,10 @@ app.get("/run", function(req, res) {
     headers: headers
   }).then(function(response) {
     console.log(response);
-    send(res, {data: response.data, headers: response.headers});
+    send(res, {data: response.data, headers: response.headers, status: response.status});
   }).catch(function(error) {
     console.log(error);
-    send(res, {data: error.response.data});
+    send(res, {data: error.response.data, status: error.response.status});
   });
 });
 
