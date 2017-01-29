@@ -12,14 +12,23 @@ send = function(res, data, startTime) {
   res.send(data);
 }
 app.get("/run", function(req, res) {
+  console.log("/run is called");
   url = req.query.url;
   method = req.query.method.toLowerCase();
   headers = {};
-  if ("headerskey" in req.headers) {
-    key = req.headers.headerskey.split("|||")[0];
-    val = req.headers.headerskey.split("|||")[1];
-    headers[key] = val;
+
+  console.log(req.headers);
+  if ('headerskey' in req.headers) {
+    splitHeaders = req.headers.headerskey.split("QQQ");
+    splitHeaders.forEach(function(header) {
+      var key = header.split("|||")[0];
+      var val = header.split("|||")[1];
+      headers[key] = val;
+    });
   }
+  console.log("See headers");
+  console.log(headers);
+  
   startTime = new Date();
   axios({
     url: url,
